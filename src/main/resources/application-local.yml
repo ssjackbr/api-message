@@ -1,0 +1,84 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+  application:
+    name: api-message
+  datasource:
+    url: jdbc:mysql://localhost:3306/message_db?createDatabaseIfNotExist=true&useSSL=false
+    username: root
+    password: admin
+  data:
+    jpa:
+      repositories:
+        enabled: true
+  jpa:
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQLDialect
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  #h2:
+  #  console:
+  #    enabled: true
+  #    path: /h2-console
+
+  #datasource:
+  #url: jdbc:h2:mem:testdb
+  #username: sa
+  #password:
+
+  # hibernate:
+  #   ddl-auto: validate
+  #properties.javax.persistence.schema-generation.create-source: metadata
+  #properties.javax.persistence.schema-generation.scripts.action: create
+  #properties.javax.persistence.schema-generation.scripts.create-target: data.sql
+
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: true
+      WRITE_DATE_KEYS_AS_TIMESTAMPS: true
+      WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+
+  cloud:
+    discovery:
+      client:
+        simple:
+          local:
+            host:
+
+server:
+  port: ${PORT:8080}
+  compression:
+    enabled: true
+    mime-types: text/html,text/css,application/javascript,application/json
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full
+
+security:
+  token: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3BsYXRhZm9ybWEuYXBpYnJhc2lsLmNvbS5ici9zb2NpYWwvZ29vZ2xlL2NhbGxiYWNrIiwiaWF0IjoxNjgyNDMzODUxLCJleHAiOjE3MTM5Njk4NTEsIm5iZiI6MTY4MjQzMzg1MSwianRpIjoidXM0SGpHUU9qZUdQUElyUCIsInN1YiI6IjI0NTUiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.SagneC6K8rN6oVlNmRsq2Aqs4WpF2fhrCu3DottMPeU"
+  secretKey: "e3b0e4b8-7670-47b6-8543-47f869ccc90e"
+  deviceToken: "1f4ed921-5508-494c-bac1-8ac95ebcd6cf"
+  publicToken: "412d3280-c93a-11ed-afa1-0242ac120002"
+  apiKey: "367fa37a-fabe-4dac-89f0-51c1ef4d9bd1"
+
+whatsapp:
+  host: https://app.whatsgw.com.br/api/WhatsGw
+  send-message: /Send
+
+api-brasil:
+  host: https://cluster.apigratis.com/api/v1/whatsapp
+  send-message: /sendText
+
+whatsapp-local:
+  host: http://localhost:8000
+  send-message: /send-message
+

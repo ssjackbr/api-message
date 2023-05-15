@@ -1,0 +1,28 @@
+version: '3.1'
+
+services:
+
+  mysql:
+      container_name: "api-message-database"
+      image: mysql:5.7.22
+      command: --default-authentication-plugin=mysql_native_password --explicit_defaults_for_timestamp=true --collation_server=utf8mb4_general_ci --character_set_server=utf8mb4 --performance_schema=false
+      restart: always
+      environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      #- MYSQL_DATABASE=message
+      #- MYSQL_USER=admin
+      #- MYSQL_PASSWORD=admin  D:\workspace\api-message\init.sql -- volumes:
+      #  - "C:/Users/Joey/Desktop/backend:/var/www/html"
+      volumes:
+      #- ./datadir:/var/lib/mysql
+      #- ./my.cnf:/etc/mysql/my.cnf
+      #- D:/workspace/api-message:/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      ports:
+      - 3306:3306
+      deploy:
+        resources:
+          limits:
+            cpus: '0.50'
+            memory: 1000M
+
