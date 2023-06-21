@@ -44,9 +44,11 @@ public class SendMessageService {
                             .build());
 
                 } catch (Exception exception) {
+                    String e = exception.toString();
                     hasSendingError = true;
                     errorReceiveMessage.add(Map.of("Log: ","ERROR WHEN TRYING TO SEND THE MESSAGE TO CONTACT" ,"Name", contact.getName(), "Number", contact.getNumber()));
                     log.error("#### ERROR WHEN TRYING TO SEND THE MESSAGE TO CONTACT [{}], [{}]", contact.getName(), contact.getNumber());
+                    log.error("#### ERROR LOG: [{}]", e);
                 }
                 if(hasSendingError){
                     saveMessage.saveMessage(contact, paymentNotificationMessageParamsDTO, content, MessageStatusEnum.ERROR_SEND);

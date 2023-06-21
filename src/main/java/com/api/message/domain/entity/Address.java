@@ -1,5 +1,6 @@
 package com.api.message.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,5 +26,6 @@ public class Address {
     private String cep;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
     private Contact contact;
 }

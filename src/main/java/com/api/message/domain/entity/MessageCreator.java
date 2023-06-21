@@ -2,16 +2,20 @@ package com.api.message.domain.entity;
 
 
 import com.api.message.domain.dto.PaymentNotificationMessageParamsDTO;
+import com.api.message.utils.ObjectValidator;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
 @Component
 public class MessageCreator {
 
-    private static final String AUTOMATION_TITLE = "⚠️\uD83E\uDD16```Atenção, essa é uma mensagem automática enviada por uma automação de cobrança!```\n";
+    private static final String HEADER = "*COBRANÇA DA TAXA DE CONDOMÍNIO* \n```Data de Envio: ```";
+    private static final String AUTOMATION_TITLE = "\n\n⚠️\uD83E\uDD16```Atenção, essa é uma mensagem automática enviada por uma automação de cobrança!```\n";
     private static final String CONDOMINIUM_TITLE = "\n\uD83C\uDFD8️ ```CONDOMÍNIO MARIA ELIZABETH DE BRUIN CAVALHEIRO CNPJ``` ";
     private static final String REFERENCE_TITLE = "\n\nOlá, segue a Taxa de Condomínio referente ao mês ";
     private static final String LABEL_PIX = "\n\n\uD83D\uDD30Chave PIX: ";
@@ -22,13 +26,16 @@ public class MessageCreator {
     private static final String LABEL_EMPLOYER_PAYROLL = "\n```Folha de Pagamento: R$``` ";
     private static final String LABEL_MAINTENANCE = "\n```Manutenções: R$``` ";
     private static final String LABEL_CLEAN_PRODUCTS = "\n```Produtos de Limpeza: R$``` ";
-    private static final String LABEL_OTHERS = "\nOutros: R$ ";
-    private static final String LABEL_DUE_DATE = "\n\n\uD83D\uDDD3️```Vencimento: ``` ";
+    private static final String LABEL_OTHERS = "\n```Outros: R$``` ";
+    private static final String LABEL_DUE_DATE = "\n\n\uD83D\uDDD3 *DATA DE VENCIMENTO:* ";
     private static final String LABEL_REPORT = "\n\n\uD83D\uDCCA```Relatório Financeiro do Condomínio```\n";
 
     public String paymentNotificationMessage(PaymentNotificationMessageParamsDTO params) {
 
-        return AUTOMATION_TITLE +
+        ObjectValidator.validateObject(params);
+
+        return  HEADER.concat((LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")))) +
+                AUTOMATION_TITLE +
                 CONDOMINIUM_TITLE.concat(params.getCnpj()) +
                 REFERENCE_TITLE.concat(params.getReference()) +
                 LABEL_PIX.concat(params.getPixKey()) +
@@ -43,4 +50,9 @@ public class MessageCreator {
                 LABEL_DUE_DATE.concat(params.getDueDate()) +
                 LABEL_REPORT.concat(params.getLinkReport());
     }
+
+
+
+
+
 }
